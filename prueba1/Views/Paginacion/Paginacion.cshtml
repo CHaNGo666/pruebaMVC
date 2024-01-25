@@ -1,0 +1,27 @@
+﻿@model prueba1.Models.ClassPaginacion
+
+@{
+    ViewData["Title"] = "Paginacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Paginacion</h1>
+
+@foreach (var item in Model.customer)
+{
+    <div class="alert alert-secondary rounded-0">
+        <a href="@item.ContactName" class="link" target="_blank">@item.Phone</a> 
+        <span class="pull-right text-primary"><i class="fa fa-calendar"></i> @item.City</span>
+    </div>
+}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-lg">
+        @for (int i = 1; i <= Model.PageCount(); i++)
+        {
+            <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                <a class="page-link" href="@Url.Action("Paginacion", new { page = i })">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
