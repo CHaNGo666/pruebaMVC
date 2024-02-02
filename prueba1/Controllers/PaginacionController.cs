@@ -15,7 +15,23 @@ namespace prueba1.Controllers
         #endregion
 
 
+        public async Task<IActionResult> Index(string buscar, string ordenActual, int? numpag, string filtroActual)
+        {
+            ViewData["ordenActual"] = ordenActual;
+            ViewData["filtroActual"] = filtroActual;
 
+            ViewData["filtroNombre"] =string.IsNullOrEmpty(ordenActual) ? "nombreDecendente" : "";
+            ViewData["filtroFecha"] = ordenActual == "fechaAscendente" ? "fechaDecendente" : "fechaAscendente";
+
+
+            var x = await _logi.PaginacionCustomer(buscar, ordenActual, numpag, filtroActual);
+
+
+            return View(x);
+        }
+
+
+        #region MyRegion
         public async Task<IActionResult> Paginacion(int page=1)
         {
 
@@ -29,5 +45,7 @@ namespace prueba1.Controllers
             };
             return View(customerView);
         }
+        #endregion
+
     }
 }

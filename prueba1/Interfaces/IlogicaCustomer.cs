@@ -9,5 +9,9 @@ namespace prueba1.Interfaces
         Task<IEnumerable<Order>> ListOrder();
 
         Task<Order> FoD_Order();
+
+
+
+        Task<Paginacion<Customer>> PaginacionCustomer(string buscar, string filtro, int? numpag, string filtroActual);
     }
 }

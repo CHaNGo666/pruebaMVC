@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using prueba1;
 using prueba1.Dato;
 using prueba1.Interfaces;
@@ -10,17 +11,40 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<NorthwindContext>();
 
-//
+#region CONTEXTO
+// https://medium.com/@kulasinghet/how-to-connect-to-a-database-in-asp-net-core-using-entity-framework-core-a11b291d0e0d
+
+const string desarrollo = "appsettings.json";
+const string produccion = "appsettings.produccion.json";
+
+var builderConf = new ConfigurationBuilder();
+builderConf.AddJsonFile(produccion);
+var configuration = builderConf.Build();
+var connString = configuration.GetConnectionString("connexion");
+
+builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(connString));
+#endregion
+
+
+
+// contexto
+//builder.Services.AddDbContext<NorthwindContext>();
+
+// mapper
 builder.Services.AddAutoMapper(typeof(mappingConfig));
 
+// logica
 builder.Services.AddScoped<IlogicaCustomer, logicaCustomer>();
+
+// --------------------------
 builder.Services.AddScoped<IDatoCustomer<Customer>, datoCustomer>();
 
 // generico
 builder.Services.AddScoped<ICustomerRepositorio, CustomerRepositorio>();
 builder.Services.AddScoped<IOrderRepositorio, OrderRepositorio>();
+
+
 
 var app = builder.Build();
 

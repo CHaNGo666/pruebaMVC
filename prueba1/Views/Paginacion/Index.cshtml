@@ -1,0 +1,132 @@
+﻿@using prueba1.Models
+@model Paginacion<Customer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form>
+    @Html.DisplayName("Buscar") <input type="text" name="buscar" value="@ViewData["filtroActual"]" class="form-text" />
+    <input type="submit" value="buscar" class="btn btn-sm btn-dark" />
+    <a asp-action="Index" class="btn btn-outline-info">Lista Completa</a>
+</form>
+
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                CompanyName
+            </th>
+            <th>
+                ContactName
+            </th>
+            <th>
+                ContactTitle)
+            </th>
+            <th>
+                Address)
+            </th>
+            <th>
+                .City)
+            </th>
+            <th>
+                Region)
+            </th>
+            <th>
+                PostalCode)
+            </th>
+            <th>
+                Country)
+            </th>
+            <th>
+                Phone)
+            </th>
+            <th>
+                Fax)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostalCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fax)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    var anteriorDeshabilitado = !Model.PaginasAnteriores ? "disamble" : "";
+    var siguienteDeshabilitado = !Model.PaginasAnteriores ? "disamble" : "";
+}
+
+<div>
+    <a asp-action="Index" asp-route-ordenActual="@ViewData["OrdenActual"]"
+       asp-route-numpag="@(Model.PaginaInicio - 1)"
+       asp-route-filtroActual="@ViewData["filtroActual"]"
+       class="btn btn-primary @anteriorDeshabilitado">Anterior</a>
+
+    @for (int i = 0; i <= Model.PaginasTotales; i++)
+    {
+        var paginaActiva = (i == Model.PaginaInicio) ? "active" : "";
+
+        <a asp-action="Index" asp-route-ordenActual="@ViewData["OrdenActual"]"
+           asp-route-numpag="@i"
+           asp-route-filtroActual="@ViewData["filtroActual"]"
+           asp-route-buscar="usa"
+           class="btn btn-primary @paginaActiva">@i</a>
+    }
+
+    <a asp-action="Index" asp-route-ordenActual="@ViewData["OrdenActual"]"
+       asp-route-numpag="@(Model.PaginaInicio + 1)"
+       asp-route-filtroActual="@ViewData["filtroActual"]"
+       class="btn btn-primary @siguienteDeshabilitado">Siguiente</a>
+</div>
