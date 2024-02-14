@@ -3,6 +3,7 @@ using prueba1.Interfaces;
 using prueba1.Models;
 using prueba1.Repositorio.IRepositorio;
 
+
 namespace prueba1.Logicas
 {
     public class logicaCustomer : IlogicaCustomer
@@ -44,17 +45,17 @@ namespace prueba1.Logicas
 
 
 
-        #region MyRegion
+        #region paginacion (PRIMERA VERSION)
         public async Task<Paginacion<Customer>> PaginacionCustomer(
             string buscar,
-            string filtro, 
-            int? numpag, 
+            string ordenActual,
+            int? numpag,
             string filtroActual)
         {
 
             var vendedores = await _customer.ObtenerTodos();
 
-            if(buscar != null)
+            if (buscar != null)
             {
                 numpag = 1;
             }
@@ -68,9 +69,82 @@ namespace prueba1.Logicas
                 vendedores = await _customer.ObtenerTodos(s => s.Country!.Contains(buscar));
             }
 
-    
+            #region orden
+            switch (ordenActual)
+            {
+                case "ContactNameDescendente":
+                    vendedores = vendedores.OrderByDescending(x => x.ContactName).ToList();
+                    break;
+
+                case "CompanyNameDescendente":
+                    vendedores = vendedores.OrderByDescending(x => x.CompanyName).ToList();
+                    break;
+                case "CompanyNameAscendente":
+                    vendedores = vendedores.OrderBy(x => x.CompanyName).ToList();
+                    break;
+
+                default:
+                    vendedores = vendedores.OrderBy(x => x.ContactName).ToList();
+                    break;
+            }
+            #endregion
+
+
             return await Paginacion<Customer>.CrearPaginacion(vendedores, numpag ?? 1, 6);
         }
+
+
+
+        #endregion
+
+
+        #region paginacion generica (SEGUNDA VERSION)
+
+        public async Task<Page<Customer>> PaginacionGenerica(string buscar, string ordenActual, int? numpag, string filtroActual, bool orden,string campo)
+        {
+            var vendedores = await _customer.ObtenerTodos();
+
+            if (buscar != null)
+            {
+                numpag = 1;
+            }
+            else
+            {
+                buscar = filtroActual;
+            }
+
+            if (!string.IsNullOrEmpty(buscar))
+            {
+                vendedores = await _customer.ObtenerTodos(s => s.Country!.Contains(buscar));
+
+            }
+
+            #region orden
+
+
+
+            //switch (ordenActual)
+            //{
+            //    case "ContactNameDescendente":
+            //        vendedores = vendedores.OrderByDescending(x => x.ContactName).ToList();
+            //        break;
+
+            //    case "CompanyNameDescendente":
+            //        vendedores = vendedores.OrderByDescending(x => x.CompanyName).ToList();
+            //        break;
+            //    case "CompanyNameAscendente":
+            //        vendedores = vendedores.OrderBy(x => x.CompanyName).ToList();
+            //        break;
+
+            //    default:
+            //        vendedores = vendedores.OrderBy(x => x.ContactName).ToList();
+            //        break;
+            //}
+            #endregion
+
+            return await Page<Customer>.Paginado(vendedores, numpag ?? 1, 6, campo, orden);
+        }
+
 
 
         #endregion

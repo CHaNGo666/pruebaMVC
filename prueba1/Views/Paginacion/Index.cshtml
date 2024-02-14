@@ -26,11 +26,12 @@
     <thead>
         <tr>
             <th>
-                CompanyName
+                <a asp-action="Index" asp-route-ordenActual="@ViewData["filtroCompanyName"]" asp-route-filtroActual="@ViewData["filtroActual"]">CompanyName</a>
+                
             </th>
             <th>
-                ContactName
-            </th>
+                <a asp-action="Index" asp-route-ordenActual="@ViewData["filtroContactName"]" asp-route-filtroActual="@ViewData["filtroActual"]">ContactName</a>
+           </th>
             <th>
                 ContactTitle)
             </th>
@@ -121,7 +122,6 @@
         <a asp-action="Index" asp-route-ordenActual="@ViewData["OrdenActual"]"
            asp-route-numpag="@i"
            asp-route-filtroActual="@ViewData["filtroActual"]"
-           asp-route-buscar="usa"
            class="btn btn-primary @paginaActiva">@i</a>
     }
 

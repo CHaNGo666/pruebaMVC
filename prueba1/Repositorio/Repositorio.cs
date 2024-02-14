@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using prueba1.Models;
 using prueba1.Repositorio.IRepositorio;
 using System.Linq.Expressions;
-
+using System.Collections.Generic;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 //----------------------------------------------------------------------//
 //              PATRON DE REPOSITORIO    Clase                          //
 //----------------------------------------------------------------------//
@@ -57,6 +59,8 @@ namespace prueba1.Repositorio
         #endregion
 
         #region obtener todos
+
+
         public async Task<List<T>> ObtenerTodos(Expression<Func<T, bool>>? filtro = null)
         {
             IQueryable<T> query = dbSet;
