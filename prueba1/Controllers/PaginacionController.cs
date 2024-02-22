@@ -40,12 +40,21 @@ namespace prueba1.Controllers
         #endregion
 
         #region --->> paginacion customer (SEGUNDA VERSION)
+        //---------------------------------------------------------------------------------------------
         // buscar           => input de nueva busqueda
         // ordenActual      => fila a ordenar
         // numpag           => numero de pagina 
         // filtroActual     => busqueda actual
+        // campo            => campo por el que ordena (link cabecera >> se setea uno por defecto)
+        // orden            => asc o desc (link cabecera)
+        //---------------------------------------------------------------------------------------------
         // model            => Page/Page.cs
-        public async Task<IActionResult> Index1(string buscar, string ordenActual, int? numpag, string filtroActual, string campo = "CompanyName", string orden = "False")
+        public async Task<IActionResult> Index1(string buscar, 
+                                                string ordenActual, 
+                                                int? numpag, 
+                                                string filtroActual, 
+                                                string campo = "CompanyName", 
+                                                string orden = "False")
         {
             // tipo de orden
             ViewData["ordenActual"] = ordenActual;
@@ -56,9 +65,7 @@ namespace prueba1.Controllers
             
 
             // orden de cada filtro (cabecera)
-            // ViewData["filtroContactName"] = string.IsNullOrEmpty(ordenActual) ? "ContactNameDescendente" : "";
-            //   ViewData["CompanyName"] = ordenActual == "CompanyNameAscendente" ? "CompanyNameDescendente" : "CompanyNameAscendente";
-            ViewData["Orden"] = orden == "True" ? "False" : "True";
+              ViewData["Orden"] = orden == "True" ? "False" : "True";
 
                var x = await _logi.PaginacionGenerica(buscar, ordenActual, numpag, filtroActual, Convert.ToBoolean(orden), campo);
 

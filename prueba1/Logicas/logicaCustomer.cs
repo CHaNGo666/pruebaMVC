@@ -100,7 +100,12 @@ namespace prueba1.Logicas
 
         #region paginacion generica (SEGUNDA VERSION)
 
-        public async Task<Page<Customer>> PaginacionGenerica(string buscar, string ordenActual, int? numpag, string filtroActual, bool orden,string campo)
+        public async Task<Page<Customer>> PaginacionGenerica(string buscar, 
+            string ordenActual, 
+            int? numpag, 
+            string filtroActual, 
+            bool orden,
+            string campo)
         {
             var vendedores = await _customer.ObtenerTodos();
 
