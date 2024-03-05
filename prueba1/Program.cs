@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 #region CONTEXTO
 // https://medium.com/@kulasinghet/how-to-connect-to-a-database-in-asp-net-core-using-entity-framework-core-a11b291d0e0d
 
-const string desarrollo = "appsettings.json";
+//const string desarrollo = "appsettings.json";
 const string produccion = "appsettings.produccion.json";
 
 var builderConf = new ConfigurationBuilder();
